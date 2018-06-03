@@ -22,6 +22,11 @@ class Blob(Backend):
         """
 
         super(Blob, self).__init__(path, **kwargs)
+        #HZ:
+        #We want to load the kernel image, we must be able to specify custom_base_addr, but current implementation of loader._map_object()
+        #will only honor this custom_base_addr when self.pic is True. However, the Backend by default set the pic to False and we have no
+        #way to change it. So we have to forcibly set it to True here.
+        self.pic = True
 
         if self.arch is None:
             raise CLEError("Must specify custom_arch when loading blob!")
